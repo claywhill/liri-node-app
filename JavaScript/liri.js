@@ -6,25 +6,53 @@ const spotify = new Spotify(keys.spotify);
 const axios = require("axios");
 const moment = require("moment");
 const fs = require("fs");
-const cmd = process.argv[2];
-const query = process.argv.slice(3).join(" ");
+var cmd = process.argv[2];
+var query = process.argv.slice(3).join(" ");
 
 
-// OMDB
-const queryURL = "http://www.omdbapi.com/?t=" + query + "&y=&plot=short&apikey=trilogy";
+// // Movie-This
+// const queryURL = "http://www.omdbapi.com/?t=" + query + "&y=&plot=short&apikey=trilogy";
 
-axios.get(queryURL).then(
-  function movieInfo(response) {
-    console.log("Title: " + response.data.Title);
-    console.log("Year: " + response.data.Year);
-    console.log("IMDB Rating: " + response.data.imdbRating);
-    console.log("Rotten Tomatoes: " + response.data.Ratings[1].Value);
-    console.log("Country: " + response.data.Country);
-    console.log("Language: " + response.data.Language);
-    console.log("Plot: " + response.data.Plot);
-    console.log("Actors: " + response.data.Actors);
-  }
-);
+// axios.get(queryURL).then(
+//   function movieThis(response) {
+//     console.log("Title: " + response.data.Title);
+//     console.log("Year: " + response.data.Year);
+//     console.log("IMDB Rating: " + response.data.imdbRating);
+//     console.log("Rotten Tomatoes: " + response.data.Ratings[1].Value);
+//     console.log("Country: " + response.data.Country);
+//     console.log("Language: " + response.data.Language);
+//     console.log("Plot: " + response.data.Plot);
+//     console.log("Actors: " + response.data.Actors);
+// });
+
+
+
+
+// fs.readFile("random.txt", "utf8", function doWhat(error, data) {
+//   if (error) {
+//     return console.log(error);
+//   }
+
+//   const dataArr = data.split(",");
+//   console.log(dataArr);
+
+//   cmd = dataArr[0];
+//   query = dataArr[1];
+
+//   console.log(cmd);
+//   console.log(query);
+
+// });
+
+// Concert-This
+const bandsURL = "https://rest.bandsintown.com/artists/" + query + "/events?app_id=codingbootcamp";
+
+axios.get(bandsURL).then(
+    function concertThis(response) {
+      console.log("Venue: " + response.data[0].venue.name);
+      console.log("Location: " + response.data[0].venue.city + " " + response.data[0].venue.region);
+      console.log("Date: " + moment(response.data[0].datetime).format("MM/DD/YYYY"));
+  });
 
 
 
