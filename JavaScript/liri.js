@@ -11,102 +11,88 @@ var query = process.argv.slice(3).join(" ");
 
 
 // Movie-This
-const movieURL = "http://www.omdbapi.com/?t=" + query + "&y=&plot=short&apikey=trilogy";
+function movieThis(query) {
 
-axios.get(movieURL).then(
-  function movieThis(response) {
-    console.log("Title: " + response.data.Title);
-    console.log("Year: " + response.data.Year);
-    console.log("IMDB Rating: " + response.data.imdbRating);
-    console.log("Rotten Tomatoes: " + response.data.Ratings[1].Value);
-    console.log("Country: " + response.data.Country);
-    console.log("Language: " + response.data.Language);
-    console.log("Plot: " + response.data.Plot);
-    console.log("Actors: " + response.data.Actors);
-});
+if (query === "") {
+  query = "Good Will Hunting";
+}
 
-// // Do What is Says
-// fs.readFile("random.txt", "utf8", function doWhat(error, data) {
-//   if (error) {
-//     return console.log(error);
-//   }
+var movieURL = "http://www.omdbapi.com/?t=" + query + "&y=&plot=short&apikey=trilogy";
 
-//   const dataArr = data.split(",");
-//   console.log(dataArr);
+console.log(query);
+console.log(movieURL);
 
-//   cmd = dataArr[0];
-//   query = dataArr[1];
+  axios.get(movieURL).then(
+    function(response) {
+      console.log("Title: " + response.data.Title);
+      console.log("Year: " + response.data.Year);
+      console.log("IMDB Rating: " + response.data.imdbRating);
+      console.log("Rotten Tomatoes: " + response.data.Ratings[1].Value);
+      console.log("Country: " + response.data.Country);
+      console.log("Language: " + response.data.Language);
+      console.log("Plot: " + response.data.Plot);
+      console.log("Actors: " + response.data.Actors);
+  });
+}
 
-//   console.log(cmd);
-//   console.log(query);
-// });
+// Concert-This
+const bandsURL = "https://rest.bandsintown.com/artists/" + query + "/events?app_id=codingbootcamp";
 
-// // Concert-This
-// const bandsURL = "https://rest.bandsintown.com/artists/" + query + "/events?app_id=codingbootcamp";
+function concertThis() {
+  axios.get(bandsURL).then(
+    function(response) {
+      console.log("Venue: " + response.data[0].venue.name);
+      console.log("Location: " + response.data[0].venue.city + " " + response.data[0].venue.region);
+      console.log("Date: " + moment(response.data[0].datetime).format("MM/DD/YYYY"));
+  });
+}
 
-// axios.get(bandsURL).then(
-//     function concertThis(response) {
-//       console.log("Venue: " + response.data[0].venue.name);
-//       console.log("Location: " + response.data[0].venue.city + " " + response.data[0].venue.region);
-//       console.log("Date: " + moment(response.data[0].datetime).format("MM/DD/YYYY"));
-//   });
+// Spotify-This {
+function spotifyThis(query) {
 
-// // Spotify-This {
-//   spotify.search({ type: "track", query: query, limit: 1}, function spotifyThis(err, data) {
-//         if (err) {
-//           return console.log("Error occurred: " + err);
-//         }
+  if (query === "") {
+    query = "The Sign";
+  }
 
-//         console.log(data.tracks.items[0]);
-//         console.log("Artist: " + data.tracks.items[0].album.artists[0].name);
-//         console.log("Song: " + data.tracks.items[0].name);
-//         console.log("Album: " + data.tracks.items[0].album.name);
-//         console.log("Preview: " + data.tracks.items[0].preview_url);
-//   });
+  spotify.search({ type: "track", query: query, limit: 1}, function(err, data) {
+        if (err) {
+          return console.log("Error occurred: " + err);
+        }
 
+        console.log("Artist: " + data.tracks.items[0].album.artists[0].name);
+        console.log("Song: " + data.tracks.items[0].name);
+        console.log("Album: " + data.tracks.items[0].album.name);
+        console.log("Preview: " + data.tracks.items[0].preview_url);
+  });
+}
 
+// Do What is Says
+function doWhat() {
+  fs.readFile("random.txt", "utf8", function(error, data) {
+    if (error) {
+      return console.log(error);
+    }
+  
+    const dataArr = data.split(",");
+    cmd = dataArr[0];
+    query = dataArr[1];
+  
+    spotifyThis();
+  });
+}
 
+if (cmd === "spotify-this-song") {
+  spotifyThis(query);
 
+} else if (cmd === "concert-this") {
+  concertThis();
 
+} else if (cmd === "movie-this") {
+  movieThis(query);
 
+} else if (cmd === "do-what-it-says") {
+  doWhat();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// if (cmd === "spotify-this-song") {
-//   spotifyThis();
-   
-// } else if (cmd === "concert-this") {
-//   concertThis();
-
-// } else if (cmd === "movie-this") {
-//   movieThis();
-
-// } else if (cmd === "do-what-it-says") {
-//   doWhat();
-
-// } else {
-//     console.log(cmd + " is not a valid command. Please enter a valid command.")
-
+} else {
+  console.log('Your "Node Liri" Options are: movie-this, concert-this, spotify-this-song, do-what-it-says');
+}
