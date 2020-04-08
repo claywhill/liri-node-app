@@ -15,13 +15,12 @@
 * Node.js
 
 * **Packages**
-  * <a href = "https://www.npmjs.com/package/node-spotify-api" target = "_blank">axios</a>
-  * [axios](https://www.npmjs.com/package/node-spotify-api)
-  * Node-Spotify-API
-  * Moment
-  * DotEnv
+  * [axios](https://www.npmjs.com/package/axios)
+  * [Node-Spotify-API](https://www.npmjs.com/package/node-spotify-api)
+  * [Moment](https://www.npmjs.com/package/moment)
+  * [DotEnv](https://www.npmjs.com/package/dotenv)
   
 * **APIs**
-  * Spotify
-  * OMDB
-  * Bands In Town
+  * [Spotify](https://developer.spotify.com/documentation/web-api/)
+  * [OMDB](http://www.omdbapi.com/)
+  * [Bands In Town](https://www.artists.bandsintown.com/support/api-installation)
