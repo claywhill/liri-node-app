@@ -19,9 +19,6 @@ if (query === "") {
 
 var movieURL = "http://www.omdbapi.com/?t=" + query + "&y=&plot=short&apikey=trilogy";
 
-console.log(query);
-console.log(movieURL);
-
   axios.get(movieURL).then(
     function(response) {
       console.log("Title: " + response.data.Title);
@@ -36,9 +33,12 @@ console.log(movieURL);
 }
 
 // Concert-This
-const bandsURL = "https://rest.bandsintown.com/artists/" + query + "/events?app_id=codingbootcamp";
 
-function concertThis() {
+
+function concertThis(query) {
+  
+  var bandsURL = "https://rest.bandsintown.com/artists/" + query + "/events?app_id=codingbootcamp";
+
   axios.get(bandsURL).then(
     function(response) {
       console.log("Venue: " + response.data[0].venue.name);
@@ -47,11 +47,11 @@ function concertThis() {
   });
 }
 
-// Spotify-This {
+// Spotify-This
 function spotifyThis(query) {
 
   if (query === "") {
-    query = "The Sign";
+    query = "It's Tricky";
   }
 
   spotify.search({ type: "track", query: query, limit: 1}, function(err, data) {
@@ -68,16 +68,26 @@ function spotifyThis(query) {
 
 // Do What is Says
 function doWhat() {
+
   fs.readFile("random.txt", "utf8", function(error, data) {
     if (error) {
       return console.log(error);
     }
   
-    const dataArr = data.split(",");
+    var dataArr = data.split(",");
     cmd = dataArr[0];
     query = dataArr[1];
-  
-    spotifyThis();
+    
+    if (cmd === "spotify-this-song") {
+      spotifyThis(query);
+    
+    } else if (cmd === "concert-this") {
+      concertThis(query);
+    
+    } else if (cmd === "movie-this") {
+      movieThis(query);
+    }
+
   });
 }
 
@@ -85,7 +95,7 @@ if (cmd === "spotify-this-song") {
   spotifyThis(query);
 
 } else if (cmd === "concert-this") {
-  concertThis();
+  concertThis(query);
 
 } else if (cmd === "movie-this") {
   movieThis(query);
