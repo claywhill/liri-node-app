@@ -54,3 +54,6 @@ Using the commands, this app will display:
   * A preview of the song from Spotify
   * The album that the song is from
   
+
+* **node liri.js do-what-it-says**
+  * Whatever text is written in the random.txt file will be read and executed based on the written command and search term.
